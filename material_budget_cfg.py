@@ -27,6 +27,12 @@ def parse_args():
         VarParsing.varType.int,
         "Geant4 simulated hits' initial seed",
     )
+    options.register(
+        'geometry', 'GeometryExtended2017Plan1',
+        VarParsing.multiplicity.singleton,
+        VarParsing.varType.string,
+        "CMS detector geometry. Taken from Configuration.Geometry.{}_cff",
+    )
     options.parseArguments()
     return options
 
@@ -35,7 +41,7 @@ def Process():
     options = parse_args()
 
     process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
-    process.load("Configuration.Geometry.GeometryExtended2017Plan1_cff")
+    process.load("Configuration.Geometry.{}_cff".format(options.geometry))
     process.load("Geometry.TrackerNumberingBuilder.trackerNumberingGeometry_cfi")
     process.load("Configuration.StandardSequences.MagneticField_38T_cff")
     process.load("SimG4Core.Application.g4SimHits_cfi")
