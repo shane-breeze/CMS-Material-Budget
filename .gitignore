@@ -3,6 +3,7 @@ CMSSW_*/
 *.root
 *.h5
 *.pdf
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
