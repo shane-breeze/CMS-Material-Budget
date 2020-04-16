@@ -10,10 +10,10 @@ def parse_args():
         "First event",
     )
     options.register(
-        'stop', 100,
+        'stop', -1,
         VarParsing.multiplicity.singleton,
         VarParsing.varType.int,
-        "Last event + 1",
+        "Last event + 1. Default=-1 corresponds to all events",
     )
     options.register(
         'genseed', 456789,
@@ -45,10 +45,11 @@ def Process():
 
     process.source = cms.Source("PoolSource",
         fileNames = cms.untracked.vstring(options.inputFiles),
-        eventsToProcess = cms.untracked.VEventRange(
-            '1:{}-1:{}'.format(options.start, options.stop-1),
-        ),
     )
+    if options.stop>0:
+        process.source.eventsToProcess = cms.untracked.VEventRange(
+            '1:{}-1:{}'.format(options.start, options.stop-1),
+        )
 
     process.maxEvents = cms.untracked.PSet(
         input = cms.untracked.int32(options.maxEvents)
